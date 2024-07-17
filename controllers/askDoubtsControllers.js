@@ -31,6 +31,12 @@ export const get_question=async(req,res)=>{
         const collegeName=req.query.collegeName
         const filter=req.query.filter
         const category=req.query.category
+    
+        const page = parseInt(req.query.page) || 1;
+    const limit = 10;
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
         var post
         if(filter==""){
             post=await askDoubtsModels.find({collegeName,category}).populate("user").sort({createdAt:-1});
@@ -65,17 +71,19 @@ export const get_question=async(req,res)=>{
             post=await askDoubtsModels.find({collegeName,category, createdAt: { $gte: startOfMonth,$lt: endOfMonth}}).populate("user").sort({createdAt:-1});
         }
 
-          
-        if(!post){
+        const result = post.slice(startIndex, endIndex);
+        if(!result){
             res.status(400).send({
                 succes:true,
                 message:"no data",
             })
         }
+
         res.send({
             succes:true,
             message:"fetch Successful",
-            post
+            result
+          
         })
 
 

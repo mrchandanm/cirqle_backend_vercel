@@ -30,6 +30,11 @@ export const get_ads=async(req,res)=>{
         const collegeName=req.query.collegeName
         // const category=req.query.category
         // if(category)
+
+        const page = parseInt(req.query.page) || 1;
+        const limit = 4;
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
         var post=await buyAndSellPostModel.find({collegeName}).populate("owner").sort({createdAt:-1});
 
     //     if(collegeName!=""){
@@ -43,7 +48,7 @@ export const get_ads=async(req,res)=>{
     // }
 
        
-
+     post = post.slice(startIndex, endIndex);
         if(!post){
             res.status(400).send({
                 succes:true,

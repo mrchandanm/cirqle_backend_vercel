@@ -30,6 +30,11 @@ export const get_products=async(req,res)=>{
     try {
         const category=req.query.category
         const collegeName=req.query.collegeName
+        const page = parseInt(req.query.page) || 1;
+        const limit = 4;
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
+    
         var products
         if(category!=""){
              products=await productModel.find({category, collegeName});
@@ -38,6 +43,7 @@ export const get_products=async(req,res)=>{
             products=await productModel.find({collegeName})
         }
 
+        products=products.slice(startIndex,endIndex)
         res.status(200).send({
             message:"succesful",
             products

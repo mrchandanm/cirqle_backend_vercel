@@ -44,7 +44,7 @@ export const updateFCMToken=async (req,res)=>{
     const updateFcm= await userModels.findByIdAndUpdate(userId,{fcmToken},{new:true})
     res.status(200).send("succesfull");
     } catch (error) {
-        res.status(400).send({failed});
+        res.status(400).send("unseccessful");
     }
 
 }

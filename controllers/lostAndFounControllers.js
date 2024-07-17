@@ -28,6 +28,11 @@ export const get_items=async(req,res)=>{
     try {
         const collegeName=req.query.collegeName
         const category=req.query.category
+
+        const page = parseInt(req.query.page) || 1;
+        const limit = 4;
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
     
         var post=await lostAndFoundModel.find({collegeName,category}).populate("user").sort({createdAt:-1});    
 
@@ -37,6 +42,7 @@ export const get_items=async(req,res)=>{
                 message:"no data",
             })
         }
+        post = post.slice(startIndex, endIndex);
         res.send( post)
 
 

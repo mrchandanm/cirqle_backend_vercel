@@ -76,10 +76,14 @@ io.on("connection",(socket)=>{
 
 
 })
-export default server;   //<---versel
-if (import.meta.url === `file://${process.argv[1]}`) {  //<----versel
- server.listen(PORT,()=>{
-     console.log(`app is running on port ${PORT}`);
- })
-}//<----versel
+ export default server;   //<---versel
+ if (import.meta.url === `file://${process.argv[1]}`) {  //<----versel
+  server.listen(PORT,()=>{
+      console.log(`app is running on port ${PORT}`);
+  })
+ }//<----versel
 //module.exports.handler = Serverless(app)
+
+// server.listen(PORT,()=>{
+//     console.log(`app is running on port ${PORT}`);
+// })
